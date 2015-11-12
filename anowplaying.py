@@ -64,7 +64,6 @@ if __name__ == '__main__':
             import textwrap
             print textwrap.fill(album, int(opts.albumwrapped))
         else:
-            print opts.albumwrapped
             print album
             
     if opts.genre and amarokdict.has_key('genre'):
