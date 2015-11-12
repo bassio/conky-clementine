@@ -80,9 +80,3 @@ ${color1}${font Arial:size=11}${execi 1 python2 ./anowplaying.py --bar 75}${colo
 ${alignc}${font Raleway:size=14}${color2}${execi 5 python2 ./anowplaying.py -t}
 
 ${execi 5 python2 ./anowplaying.py -c ~/.cache/cover.jpg}${image ~/.cache/cover.jpg -p 300,15 -s 250x250 -n}
-
-
-#${alignc}${if_match ${execi 5 expr length "`python2 ./anowplaying.py -t | head -n 1`"} >= 25}${scroll 25 ${execi 5 python2 ./anowplaying.py -t}}${else}${execi python2 ./anowplaying.py -t}${endif}\
-#${color2}Album  : ${color}${execi 5 python2 ./anowplaying.py -l}
-#${color2}Year   : ${color}${execi 5 python2 ./anowplaying.py -y}
-#${color2}Bitrate: ${color}${execi 5 python2 ./anowplaying.py -b}kbit/s
