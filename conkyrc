@@ -1,124 +1,88 @@
-# UBUNTU-CONKY
-# A comprehensive conky script, configured for use on
-# Ubuntu / Debian Gnome, without the need for any external scripts.
-#
-# Based on conky-jc and the default .conkyrc.
-# INCLUDES:
-# - tail of /var/log/messages
-# - netstat connections to your computer
-#
-# -- Pengo (conky@pengo.us)
-#
-
-# Create own window instead of using desktop (required in nautilus)
-own_window yes
-own_window_type override
-own_window_hints undecorated,below,skip_taskbar
-# Use double buffering (reduces flicker, may not work for everyone)
+#====================================
+#   Conky Settings
+#====================================
+background yes
+update_interval 1
 double_buffer yes
+no_buffers yes
 
-# fiddle with window
-use_spacer yes
-use_xft yes
 
-# Update interval in seconds
-update_interval 1.0
-default_bar_size 200
-#Maximum Width of Window
-maximum_width 320
+#====================================
+#   Window Specifications
+#====================================
+gap_x 100
+gap_y 100
+alignment top_middle
 
-# Minimum size of text area
- #minimum_size 550 5
+minimum_size 400 400
+maximum_width 600
 
-# Draw shades?
-draw_shades no
-
-# Text stuff
-draw_outline no # amplifies text if yes
-draw_borders no
-font arial
-uppercase no # set to yes if you want all text to be in uppercase
-
-# Stippled borders?
-stippled_borders 3
-
-# border margins
-border_margin 5
-
-# border width
-border_width 6
-
-# Default colors and also border colors, grey90 == #e5e5e5
-default_color FFFFCC
-
-own_window_colour #555555
+own_window yes
+own_window_type normal
 own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 
-# Text alignment, other possible values are commented
-#alignment top_left
-alignment tm
-#alignment bottom_left
-#alignment bottom_right
+#own_window_argb_visual yes
+#own_window_argb_value 0
+own_window_argb_visual yes
+own_window_argb_value 255
 
-# Gap between borders of screen and text
-gap_x 10
-gap_y 10
+#border_margin 0
+#border_inner_margin 0
+#border_outer_margin 0
 
-# stuff after ‘TEXT’ will be formatted on screen
 
-xftfont Terminus:size=10
+#====================================
+#   Graphics Settings
+#====================================
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+
+
+# Color scheme #
+default_color 666666
+
+color1 FFFFFF
+color2 D8D8D8
+color3 636363
+color4 6A5C60
+color5 CC0000
+color6 AAAAAA
+color7 DDDDDD
+
+
+#====================================
+#   Text Settings
+#====================================
+use_xft yes
+xftalpha 0
+xftfont sans serif:size=12
+override_utf8_locale yes
+imlib_cache_size 0
+#imlib_image_alpha no
+
 TEXT
 
 
- ${color CC9900}Nithin's Vaio${hr 2}
- ${color slate grey}${time %a, } ${color }${time %e %B %G}   ${color slate grey}${time %Z, }${color }${time %H:%M:%S}
- ${color slate grey}UpTime: ${color }$uptime ${color slate grey}    CPU:${color } $cpu% ${acpitemp}C
-$color
-${color CC9900}SYSTEM ${hr 2}$color
-$nodename $sysname $kernel on $machine
+${color1}${font Chivo:style=Black:size=20}Now Playing\
+${voffset 15}
+${color2}${font Raleway:size=14}${execi 5 python2 ./anowplaying.py --albumwrapped 25}\
 
-${color CC9900}CPU ${hr 2}$color
-Intel® Core™ i3 CPU M 350 @ 2.27GHz × 4
-Total CPU: ${cpu cpu0}%
-${color 597DB2}${cpubar}$color
- ${cpugraph 30 000000 ffffff}
+${voffset 150}
+${alignc}${color1}${font Raleway:size=20}${execi 5 python2 ./anowplaying.py -a}\
 
-NAME                         PID     CPU%   MEM%
-${color CCFFFF}${top name 1}             ${top pid 1} ${top cpu 1} ${top mem 1}
-${top name 2}               ${top pid 2} ${top cpu 2} ${top mem 2}
-${top name 3}               ${top pid 3} ${top cpu 3} ${top mem 3}
-${top name 4}               ${top pid 4} ${top cpu 4} ${top mem 4}$color
+#${voffset 5}
+${color1}${font Arial:size=11}${execi 1 python2 ./anowplaying.py --bar 75}${color3}___________________________________________________________________________${color}
 
-${color CC9900}MEMORY ${hr 2}$color
- RAM Used:${mem}  Free:${memfree}/${memmax}
- RAM: $memperc%  ${color FF6600} ${membar 6}$color
+#${voffset 2}
+${alignc}${font Raleway:size=14}${color2}${execi 5 python2 ./anowplaying.py -t}
 
-${color CC9900}DISK ${hr 2}$color
- ${color slate grey}ROOT:  ${color }${fs_free /}/${fs_size /} ${alignr} ${fs_bar 5,100 }
- ${color slate grey}HOME:  ${color }${fs_free  /home}/${fs_size /home} ${alignr} ${fs_bar 5,100 /home}
+${execi 5 python2 ./anowplaying.py -c ~/.cache/cover.jpg}${image ~/.cache/cover.jpg -p 300,15 -s 250x250 -n}
 
- ${color ffffff}BAT: ${battery}     ${battery_bar  10,130 }
 
-$hr
-${color2}Networking:
-${color2}Up:  $color ${upspeed enp3s0} (${totalup enp4s0})${alignr 0}${upspeedgraph enp4s0 15,120} 
-${color2}Down:$color ${downspeed enp3s0} (${totaldown enp4s0})${alignr 0}${downspeedgraph enp4s0 15,120}
-$hr
-${color2}Name              PID   CPU%   MEM%
-${color lightgrey} ${top name 1} ${top pid 1} ${top cpu 1} ${top mem 1}
-${color lightgrey} ${top name 2} ${top pid 2} ${top cpu 2} ${top mem 2}
-${color lightgrey} ${top name 3} ${top pid 3} ${top cpu 3} ${top mem 3}
-${color lightgrey} ${top name 4} ${top pid 4} ${top cpu 4} ${top mem 4}
-${color lightgrey} ${top name 5} ${top pid 5} ${top cpu 5} ${top mem 5}
-${color lightgrey} ${top name 6} ${top pid 6} ${top cpu 6} ${top mem 6}
-${color lightgrey} ${top name 7} ${top pid 7} ${top cpu 7} ${top mem 7}
-${color lightgrey} ${top name 8} ${top pid 8} ${top cpu 8} ${top mem 8}
-${color lightgrey} ${top name 9} ${top pid 9} ${top cpu 9} ${top mem 9}
-$hr
-${color2}Now Playing:
- ${color2}Artist : ${color}${execi 5 python2 /home/diadara/projects/conky-clementine/anowplaying.py -a}
- ${color2}Title  : ${color}${execi 5 python2 /home/diadara/projects/conky-clementine/anowplaying.py -t}
- ${color2}Album  : ${color}${execi 5 python2 /home/diadara/projects/conky-clementine/anowplaying.py -l}
- ${color2}Year   : ${color}${execi 5 python2 /home/diadara/projects/conky-clementine/anowplaying.py -y}
- ${color2}Bitrate: ${color}${execi 5 python2 /home/diadara/projects/conky-clementine/anowplaying.py -b}kbit/s
- ${execi 5 python2 /home/diadara/projects/conky-clementine/anowplaying.py -c /tmp/cover.jpg}${image /tmp/cover.jpg -p 45,715 -s 300x300 -n}
+#${alignc}${if_match ${execi 5 expr length "`python2 ./anowplaying.py -t | head -n 1`"} >= 25}${scroll 25 ${execi 5 python2 ./anowplaying.py -t}}${else}${execi python2 ./anowplaying.py -t}${endif}\
+#${color2}Album  : ${color}${execi 5 python2 ./anowplaying.py -l}
+#${color2}Year   : ${color}${execi 5 python2 ./anowplaying.py -y}
+#${color2}Bitrate: ${color}${execi 5 python2 ./anowplaying.py -b}kbit/s
